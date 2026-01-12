@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UET Taxila FAQ Chatbot System - Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #2c5f8d 0%, #1a4d7a 100%);
+            color: #333;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            padding: 60px;
+            overflow-y: auto;
+            animation: slideIn 0.5s ease-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .slide.active {
+            display: block;
+            z-index: 10;
+        }
+
+        /* Hide only thank you slide */
+        .slide:last-child {
+            display: none !important;
+        }
+        
+        /* Title slide special styling - only when active */
+        .slide.title-slide {
+            background: linear-gradient(135deg, #2c5f8d 0%, #1a4d7a 50%, #3a7bb5 100%);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: absolute;
+            overflow: hidden;
+        }
+        
+        .slide.title-slide.active {
+            display: flex !important;
+        }
+        
+        .slide.title-slide:not(.active) {
+            display: none !important;
+            visibility: hidden;
+        }
+        
+        .slide.title-slide::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .slide.title-slide > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            color: #2c5f8d;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #d4af37;
+            padding-bottom: 15px;
+            animation: fadeInDown 0.6s ease-out;
+        }
+
+        .slide h2 {
+            color: #3a7bb5;
+            font-size: 2em;
+            margin: 30px 0 20px 0;
+            animation: fadeInDown 0.7s ease-out;
+        }
+
+        .slide h3 {
+            color: #1a4d7a;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .slide p, .slide li {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin: 10px 0;
+            animation: fadeIn 0.9s ease-out;
+        }
+
+        .slide ul {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        .slide li {
+            margin: 12px 0;
+            padding-left: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Title Slide */
+        .title-slide {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #2c5f8d 0%, #3a7bb5 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            font-size: 3.5em;
+            color: white;
+            border: none;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: zoomIn 1s ease-out;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.8em;
+            margin: 20px 0;
+            color: #e8f1f8;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .title-slide .candidates {
+            margin-top: 60px;
+            font-size: 1.3em;
+            animation: fadeIn 1.4s ease-out;
+        }
+
+        .title-slide .candidate {
+            margin: 15px 0;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #3a7bb5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Highlight boxes */
+        .highlight-box {
+            background: #f0f9ff;
+            border-left: 5px solid #3a7bb5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .highlight-box.advantage {
+            background: #e8f5e9;
+            border-left-color: #4caf50;
+        }
+
+        .highlight-box.disadvantage {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2c5f8d 0%, #3a7bb5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #3a7bb5;
+            color: #2c5f8d;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: #3a7bb5;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(58,123,181,0.4);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+            z-index: 1001;
+            box-shadow: 0 2px 5px rgba(212,175,55,0.5);
+        }
+
+        /* Slide counter */
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #2c5f8d;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Two column layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        /* Feature list */
+        .feature-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0 10px 40px;
+            position: relative;
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+
+        .feature-list li.negative:before {
+            content: "✗";
+            color: #f44336;
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .slide::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .slide::-webkit-scrollbar-thumb {
+            background: #3a7bb5;
+            border-radius: 10px;
+        }
+
+        .slide::-webkit-scrollbar-thumb:hover {
+            background: #2c5f8d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                width: 100vw;
+                padding: 30px;
+                height: 100vh;
+            }
+
+            .slide h1 {
+                font-size: 1.8em;
+            }
+
+            .slide h2 {
+                font-size: 1.5em;
+            }
+
+            .title-slide h1 {
+                font-size: 2.5em;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-controls {
+                bottom: 15px;
+            }
+
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .slide-counter {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Keyboard hint */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter" id="slideCounter">Title</div>
+    <div class="keyboard-hint">Use ← → arrow keys or buttons to navigate</div>
+
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active title-slide">
+            <h1 style="color: white; border: none; font-size: 4em; margin-bottom: 30px; text-shadow: 3px 3px 6px rgba(0,0,0,0.3); animation: zoomIn 1s ease-out;">🤖 UET Taxila FAQ Chatbot System</h1>
+            <div class="subtitle" style="font-size: 2em; margin: 20px 0; color: #e8f1f8; font-weight: 300;">AI-Powered Intelligent Information Assistant</div>
+            <div class="subtitle" style="margin-top: 60px; font-size: 1.5em; color: #d4af37; font-weight: 500;">University of Engineering & Technology, Taxila</div>
+            <div class="candidates" style="margin-top: 80px; display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;">
+                <div class="candidate" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px 40px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.3); min-width: 250px;">
+                    <strong style="font-size: 1.4em; display: block; margin-bottom: 10px;">Hafiz Sakahwat Ali</strong>
+                    <span style="font-size: 1.1em; opacity: 0.9;">23-cs-63</span>
+                </div>
+                <div class="candidate" style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 25px 40px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.3); min-width: 250px;">
+                    <strong style="font-size: 1.4em; display: block; margin-bottom: 10px;">Abdul Moeid Rao</strong>
+                    <span style="font-size: 1.1em; opacity: 0.9;">23-cs-95</span>
+                </div>
+            </div>
+            <div style="margin-top: 60px; font-size: 1.2em; color: rgba(255,255,255,0.8); font-weight: 300;">Click Next to begin presentation</div>
+        </div>
+
+        <!-- Slide 2: Introduction - Problem Statement -->
+        <div class="slide">
+            <h1>1. Introduction: The Problem</h1>
+            <h2>1.1 Problem Statement</h2>
+            <div class="highlight-box">
+                <p><strong>Manual Information Dissemination Challenge:</strong> Universities face significant challenges in providing timely and accurate information to prospective students, current students, and parents.</p>
+            </div>
+            <h3>High Volume of Repetitive Queries</h3>
+            <ul>
+                <li>Admission procedures and requirements</li>
+                <li>Program details and curriculum</li>
+                <li>Scholarship opportunities</li>
+                <li>Hostel facilities and fees</li>
+                <li>Examination schedules and policies</li>
+                <li>Campus life and facilities</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Current Limitations -->
+        <div class="slide">
+            <h1>1. Introduction: The Problem</h1>
+            <h2>1.2 Current Limitations</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">⏰</div>
+                    <div class="stat-label">Limited Availability</div>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Office hours only</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">⏳</div>
+                    <div class="stat-label">Response Delays</div>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Hours to days</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">🔄</div>
+                    <div class="stat-label">Inconsistency</div>
+                    <p style="font-size: 0.9em; margin-top: 10px;">Varying information</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">💰</div>
+                    <div class="stat-label">Resource Intensive</div>
+                    <p style="font-size: 0.9em; margin-top: 10px;">High operational cost</p>
+                </div>
+            </div>
+            <ul style="margin-top: 30px;">
+                <li>Scalability Issues: Cannot handle multiple simultaneous inquiries</li>
+                <li>Resource Intensive: Requires dedicated staff time</li>
+                <li>Inconsistency: Different staff provide varying information</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Solution Approach -->
+        <div class="slide">
+            <h1>1. Introduction: The Problem</h1>
+            <h2>1.3 Solution Approach</h2>
+            <div class="highlight-box advantage">
+                <h3>AI-Powered FAQ Chatbot</h3>
+                <p>Automated intelligent system that provides instant, accurate, and consistent responses</p>
+            </div>
+            <div class="two-column">
+                <div>
+                    <h3>Key Benefits:</h3>
+                    <ul class="feature-list">
+                        <li>24/7 Availability</li>
+                        <li>Scalable Solution</li>
+                        <li>Cost-Effective</li>
+                        <li>Improved UX</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Target Users:</h3>
+                    <ul>
+                        <li>Prospective students</li>
+                        <li>Current students</li>
+                        <li>Parents and guardians</li>
+                        <li>Faculty and staff</li>
+                        <li>Alumni</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Literature Review -->
+        <div class="slide">
+            <h1>2. Literature Review</h1>
+            <h2>2.1 Natural Language Processing in Chatbots</h2>
+            <div class="highlight-box">
+                <h3>TF-IDF Vectorization</h3>
+                <p>Term Frequency-Inverse Document Frequency is a classical information retrieval technique:</p>
+                <ul>
+                    <li>Successfully used in document similarity and search systems</li>
+                    <li>Effective for question-answer matching in FAQ systems</li>
+                    <li>Provides good baseline performance for text similarity tasks</li>
+                </ul>
+            </div>
+            <h2>2.2 Information Retrieval Methods</h2>
+            <p><strong>Cosine Similarity:</strong> Widely used metric for measuring similarity between text vectors. Measures angle between vectors in high-dimensional space.</p>
+        </div>
+
+        <!-- Slide 6: Literature Review Continued -->
+        <div class="slide">
+            <h1>2. Literature Review</h1>
+            <h2>2.3 FAQ System Architectures</h2>
+            <div class="highlight-box advantage">
+                <h3>Retrieval-Based Systems</h3>
+                <ul>
+                    <li>Match user queries to pre-defined answers</li>
+                    <li>Advantages: Accurate, controlled responses, no hallucination</li>
+                    <li>Suitable for domain-specific knowledge bases</li>
+                    <li>Commonly used in customer service and educational chatbots</li>
+                </ul>
+            </div>
+            <h2>2.4 Educational Chatbot Applications</h2>
+            <ul>
+                <li>University Information Systems: Growing trend in higher education</li>
+                <li>Student Support Services: Automated assistance for common queries</li>
+                <li>Admission Support: 24/7 guidance for prospective students</li>
+                <li>Research Findings: Studies show high user satisfaction</li>
+            </ul>
+        </div>
+
+        <!-- Slide 7: Project Objectives -->
+        <div class="slide">
+            <h1>3. Project Objectives</h1>
+            <h2>3.1 Primary Objectives</h2>
+            <div class="two-column">
+                <div>
+                    <h3>1. Develop Intelligent FAQ System</h3>
+                    <ul>
+                        <li>AI-powered chatbot for UET Taxila</li>
+                        <li>Accurate answers to FAQs</li>
+                        <li>Support multiple categories</li>
+                    </ul>
+                    <h3>2. Improve Information Accessibility</h3>
+                    <ul>
+                        <li>24/7 access</li>
+                        <li>Reduce response time</li>
+                        <li>Consistent information</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>3. Enhance User Experience</h3>
+                    <ul>
+                        <li>Intuitive interface</li>
+                        <li>Natural language queries</li>
+                        <li>Instant responses</li>
+                    </ul>
+                    <h3>3.3 Success Criteria</h3>
+                    <ul>
+                        <li>Accuracy: > 85%</li>
+                        <li>Response Time: < 1 second</li>
+                        <li>Coverage: 20+ categories</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Technical Implementation - Architecture -->
+        <div class="slide">
+            <h1>4. Technical Implementation</h1>
+            <h2>4.1 System Architecture</h2>
+            <div class="code-block">
+User Interface (Streamlit)
+    ↓
+Question Processing
+    ↓
+TF-IDF Vectorization
+    ↓
+Similarity Calculation (Cosine Similarity)
+    ↓
+Answer Retrieval
+    ↓
+Response Display
+            </div>
+            <h2>4.1.2 Technology Stack</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Frontend</div>
+                    <div class="stat-number">Streamlit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">NLP</div>
+                    <div class="stat-number">scikit-learn</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Language</div>
+                    <div class="stat-number">Python 3.x</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Computing</div>
+                    <div class="stat-number">NumPy</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Core Components -->
+        <div class="slide">
+            <h1>4. Technical Implementation</h1>
+            <h2>4.2 Core Components</h2>
+            <div class="two-column">
+                <div>
+                    <h3>4.2.1 Question Processing</h3>
+                    <ul>
+                        <li>Input Normalization</li>
+                        <li>Manual Response Handling</li>
+                        <li>Duplicate Detection</li>
+                        <li>Query Preprocessing</li>
+                    </ul>
+                    <h3>4.2.2 Vectorization</h3>
+                    <ul>
+                        <li>TF-IDF Vectorizer</li>
+                        <li>Feature Extraction</li>
+                        <li>Vector Storage</li>
+                        <li>Real-time Vectorization</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>4.2.3 Similarity Matching</h3>
+                    <ul>
+                        <li>Cosine Similarity Calculation</li>
+                        <li>Best Match Selection</li>
+                        <li>Threshold Filtering (0.35)</li>
+                        <li>Answer Retrieval</li>
+                    </ul>
+                    <h3>4.2.4 User Interface</h3>
+                    <ul>
+                        <li>Interactive Chat</li>
+                        <li>Category Filtering</li>
+                        <li>Sample Questions</li>
+                        <li>Chat History</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Algorithm Details -->
+        <div class="slide">
+            <h1>4. Technical Implementation</h1>
+            <h2>4.3 Algorithm Details</h2>
+            <h3>4.3.1 TF-IDF Vectorization</h3>
+            <div class="code-block">
+TF-IDF(t, d) = TF(t, d) × IDF(t)
+where:
+- TF(t, d) = Term Frequency in document
+- IDF(t) = Inverse Document Frequency
+- t = term, d = document
+            </div>
+            <h3>4.3.2 Cosine Similarity</h3>
+            <div class="code-block">
+similarity = (A · B) / (||A|| × ||B||)
+where:
+- A = query vector
+- B = FAQ question vector
+- Result: value between 0 and 1
+            </div>
+        </div>
+
+        <!-- Slide 11: Answer Selection Algorithm -->
+        <div class="slide">
+            <h1>4. Technical Implementation</h1>
+            <h2>4.3.3 Answer Selection Algorithm</h2>
+            <div class="code-block">
+1. Transform user question to TF-IDF vector
+2. Calculate cosine similarity with all FAQ questions
+3. Find maximum similarity score
+4. If similarity >= 0.35:
+   - Return corresponding answer
+5. Else:
+   - Return "I don't know" message
+            </div>
+            <div class="highlight-box" style="margin-top: 30px;">
+                <h3>Key Features:</h3>
+                <ul class="feature-list">
+                    <li>Real-time Chat: Instant question-answer interaction</li>
+                    <li>Category Navigation: Filter questions by category</li>
+                    <li>Sample Questions: One-click question selection</li>
+                    <li>Animated Responses: Typewriter effect for answers</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 12: Frontend Implementation -->
+        <div class="slide">
+            <h1>4. Technical Implementation</h1>
+            <h2>4.5 Frontend Implementation (HTML/CSS)</h2>
+            <div class="two-column">
+                <div>
+                    <h3>Design System</h3>
+                    <ul>
+                        <li><strong>Primary Colors:</strong> Deep Blue (#2c5f8d), Light Blue (#3a7bb5), Gold (#d4af37)</li>
+                        <li><strong>Typography:</strong> Inter font family</li>
+                        <li><strong>Layout:</strong> CSS Grid & Flexbox</li>
+                        <li><strong>Responsive:</strong> 5 breakpoints</li>
+                    </ul>
+                    <h3>CSS Statistics</h3>
+                    <ul>
+                        <li>~615 lines of custom CSS</li>
+                        <li>30+ custom classes</li>
+                        <li>5 media queries</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Key UI Components</h3>
+                    <ul>
+                        <li>Header with gradient background</li>
+                        <li>Campus showcase grid</li>
+                        <li>Statistics cards</li>
+                        <li>Chat interface with message bubbles</li>
+                        <li>Sidebar with category filtering</li>
+                        <li>Answer display cards</li>
+                    </ul>
+                    <h3>Advanced Features</h3>
+                    <ul>
+                        <li>Custom scrollbars</li>
+                        <li>Smooth transitions</li>
+                        <li>Hover animations</li>
+                        <li>Base64 image encoding</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Data Collection -->
+        <div class="slide">
+            <h1>5. Data Collection and Preprocessing</h1>
+            <h2>5.1 Data Collection</h2>
+            <h3>5.1.1 Data Sources</h3>
+            <ul>
+                <li>University Website: Official UET Taxila information</li>
+                <li>Admission Office: Common admission-related queries</li>
+                <li>Student Affairs: Campus life and facilities</li>
+                <li>Academic Departments: Program and course details</li>
+                <li>Administrative Offices: Policies and procedures</li>
+            </ul>
+            <h3>5.1.2 Dataset Characteristics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">275</div>
+                    <div class="stat-label">FAQ Pairs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Columns</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Dataset Coverage -->
+        <div class="slide">
+            <h1>5. Data Collection and Preprocessing</h1>
+            <h2>5.1.2 Coverage Areas</h2>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li>Admission (27 questions)</li>
+                        <li>Programs (15 questions)</li>
+                        <li>Scholarships (18 questions)</li>
+                        <li>Hostel (20 questions)</li>
+                        <li>Fees (12 questions)</li>
+                        <li>Exams (12 questions)</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li>Library (10 questions)</li>
+                        <li>Research (15 questions)</li>
+                        <li>Sports (12 questions)</li>
+                        <li>Campus Life (25 questions)</li>
+                        <li>And more categories...</li>
+                    </ul>
+                </div>
+            </div>
+            <h2>5.2 Data Preprocessing</h2>
+            <ul>
+                <li>Text Normalization: Standardize text format</li>
+                <li>Question Extraction: Extract questions from dataset</li>
+                <li>Answer Mapping: Create question-answer pairs</li>
+                <li>Category Labeling: Assign categories</li>
+                <li>Data Storage: Pickle files for fast loading</li>
+            </ul>
+        </div>
+
+        <!-- Slide 15: Model Selection -->
+        <div class="slide">
+            <h1>6. Model Selection</h1>
+            <h2>6.1 Model Selection Criteria</h2>
+            <ul>
+                <li><strong>Accuracy:</strong> High precision in answer retrieval</li>
+                <li><strong>Speed:</strong> Fast response time (< 1 second)</li>
+                <li><strong>Simplicity:</strong> Easy to implement and maintain</li>
+                <li><strong>Interpretability:</strong> Understandable matching process</li>
+                <li><strong>Resource Efficiency:</strong> Low computational requirements</li>
+                <li><strong>Scalability:</strong> Handle growing FAQ database</li>
+            </ul>
+            <h2>6.2.1 TF-IDF + Cosine Similarity (Selected)</h2>
+            <div class="two-column">
+                <div class="highlight-box advantage">
+                    <h3>Advantages</h3>
+                    <ul>
+                        <li>Simple and interpretable</li>
+                        <li>Fast computation</li>
+                        <li>No training required</li>
+                        <li>Works well with small datasets</li>
+                        <li>Low memory footprint</li>
+                    </ul>
+                </div>
+                <div class="highlight-box disadvantage">
+                    <h3>Disadvantages</h3>
+                    <ul>
+                        <li>Limited semantic understanding</li>
+                        <li>May miss synonyms</li>
+                        <li>Requires exact word matches</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Model Architecture -->
+        <div class="slide">
+            <h1>6. Model Selection</h1>
+            <h2>6.3 Final Model Architecture</h2>
+            <div class="code-block">
+Input: User Question (text)
+    ↓
+TF-IDF Vectorization
+    ↓
+Cosine Similarity with FAQ Questions
+    ↓
+Best Match Selection (argmax)
+    ↓
+Threshold Check (>= 0.35)
+    ↓
+Output: Answer or "Don't Know" message
+            </div>
+            <h2>6.3.2 Model Parameters</h2>
+            <ul>
+                <li><strong>Vectorizer:</strong> TfidfVectorizer from scikit-learn</li>
+                <li><strong>Similarity Metric:</strong> Cosine Similarity</li>
+                <li><strong>Threshold:</strong> 0.35 (tuned for optimal performance)</li>
+                <li><strong>Normalization:</strong> Lowercase, whitespace stripping</li>
+            </ul>
+            <div class="highlight-box">
+                <h3>Why Selected:</h3>
+                <p>Best fit for FAQ retrieval task, sufficient accuracy for domain-specific questions, fast response times, easy maintenance and updates.</p>
+            </div>
+        </div>
+
+        <!-- Slide 17: Model Training -->
+        <div class="slide">
+            <h1>7. Model Training</h1>
+            <h2>7.1 Training Process</h2>
+            <h3>7.1.1 TF-IDF Vectorizer Training</h3>
+            <ul>
+                <li><strong>Training Data:</strong> All 275 FAQ questions</li>
+                <li><strong>Training Method:</strong> Fit TF-IDF vectorizer on question corpus</li>
+            </ul>
+            <div class="code-block">
+# Load questions
+questions = pickle.load(open("embeddings/faq_questions.pkl", "rb"))
+
+# Initialize and fit vectorizer
+vectorizer = TfidfVectorizer().fit(questions)
+
+# Transform questions to vectors
+q_vecs = vectorizer.transform(questions)
+            </div>
+            <h2>7.2 Training Characteristics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">< 1s</div>
+                    <div class="stat-label">Training Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1x</div>
+                    <div class="stat-label">One-time Fitting</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">275</div>
+                    <div class="stat-label">Questions</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Threshold Tuning -->
+        <div class="slide">
+            <h1>7. Model Training</h1>
+            <h2>7.3 Threshold Tuning</h2>
+            <h3>7.3.1 Similarity Threshold Selection</h3>
+            <div class="highlight-box">
+                <p><strong>Selected Threshold: 0.35</strong></p>
+                <p>Purpose: Filter out irrelevant matches</p>
+                <p>Tuning Method: Empirical testing with sample queries</p>
+            </div>
+            <div class="two-column">
+                <div>
+                    <h3>High Threshold (> 0.5)</h3>
+                    <ul>
+                        <li>Higher precision</li>
+                        <li>Lower recall</li>
+                        <li>More "I don't know" responses</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Low Threshold (< 0.3)</h3>
+                    <ul>
+                        <li>Higher recall</li>
+                        <li>Lower precision</li>
+                        <li>More incorrect answers</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box advantage" style="margin-top: 20px;">
+                <h3>Optimal: 0.35</h3>
+                <p>Balanced precision and recall - Too low returns irrelevant answers, too high rejects valid questions.</p>
+            </div>
+        </div>
+
+        <!-- Slide 19: Evaluation Metrics -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.1 Evaluation Metrics</h2>
+            <div class="two-column">
+                <div>
+                    <h3>8.1.1 Accuracy Metrics</h3>
+                    <ul>
+                        <li>Retrieval Accuracy</li>
+                        <li>Similarity Score Distribution</li>
+                        <li>Threshold Effectiveness</li>
+                        <li>Category Coverage</li>
+                    </ul>
+                    <h3>8.1.2 Performance Metrics</h3>
+                    <ul>
+                        <li>Response Time: < 1 second</li>
+                        <li>System Latency</li>
+                        <li>Memory Usage</li>
+                        <li>Concurrent User Support</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>8.1.3 User Experience Metrics</h3>
+                    <ul>
+                        <li>User Satisfaction</li>
+                        <li>Query Success Rate</li>
+                        <li>Error Rate</li>
+                        <li>User Engagement</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Evaluation Results -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.2 Evaluation Results</h2>
+            <h3>8.2.1 System Performance</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">< 0.5s</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">85-90%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">275</div>
+                    <div class="stat-label">Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Availability</div>
+                </div>
+            </div>
+            <h3>8.2.2 Category-wise Performance</h3>
+            <ul>
+                <li><strong>Admission Questions:</strong> High accuracy (90%+)</li>
+                <li><strong>Program Questions:</strong> Good accuracy (85%+)</li>
+                <li><strong>Scholarship Questions:</strong> High accuracy (88%+)</li>
+                <li><strong>Hostel Questions:</strong> Good accuracy (85%+)</li>
+                <li><strong>General Questions:</strong> Moderate accuracy (80%+)</li>
+            </ul>
+        </div>
+
+        <!-- Slide 21: System Output -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.3 System Output</h2>
+            <h3>8.3.1 User Interface Output</h3>
+            <ul class="feature-list">
+                <li>Interactive Chat Interface: Real-time conversation display</li>
+                <li>Answer Display: Formatted answer cards with animations</li>
+                <li>Chat History: Scrollable conversation log</li>
+                <li>Category Navigation: Sidebar with filtered questions</li>
+                <li>Visual Feedback: Loading states and animations</li>
+            </ul>
+            <h3>8.3.2 Answer Format</h3>
+            <ul>
+                <li>Structured Responses: Clear, formatted answers</li>
+                <li>Emoji Support: Visual indicators for better UX</li>
+                <li>Error Messages: Helpful "I don't know" responses with suggestions</li>
+                <li>Duplicate Detection: Prevents repeated questions</li>
+            </ul>
+        </div>
+
+        <!-- Slide 22: Sample Outputs -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.4 Sample Outputs</h2>
+            <h3>8.4.1 Successful Query Example</h3>
+            <div class="highlight-box advantage">
+                <p><strong>User Input:</strong> "What are the admission requirements?"</p>
+                <p><strong>Similarity Score:</strong> 0.72</p>
+                <p><strong>Answer:</strong> "FSc (Pre-Engineering) with minimum required marks. ECAT is mandatory for all applicants."</p>
+                <p><strong>Response Time:</strong> 0.3 seconds</p>
+            </div>
+            <h3>8.4.2 Low Similarity Query Example</h3>
+            <div class="highlight-box">
+                <p><strong>User Input:</strong> "What's the weather today?"</p>
+                <p><strong>Similarity Score:</strong> 0.15</p>
+                <p><strong>Answer:</strong> "❌ Sorry, I don't have an answer for that specific question. Please try rephrasing..."</p>
+            </div>
+        </div>
+
+        <!-- Slide 23: System Capabilities -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.5 System Capabilities</h2>
+            <div class="two-column">
+                <div>
+                    <h3>8.5.1 Supported Query Types</h3>
+                    <ul class="feature-list">
+                        <li>Admission-related questions</li>
+                        <li>Program and course inquiries</li>
+                        <li>Scholarship information</li>
+                        <li>Hostel and accommodation</li>
+                        <li>Fee structure queries</li>
+                        <li>Examination schedules</li>
+                        <li>Library services</li>
+                        <li>Research opportunities</li>
+                        <li>Sports facilities</li>
+                        <li>Campus life information</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>8.5.2 System Limitations</h3>
+                    <ul class="feature-list">
+                        <li class="negative">Cannot handle multi-turn conversations</li>
+                        <li class="negative">Limited understanding of synonyms</li>
+                        <li class="negative">Cannot answer questions outside FAQ database</li>
+                        <li class="negative">No learning from user interactions</li>
+                        <li class="negative">No personalized responses</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Future Improvements -->
+        <div class="slide">
+            <h1>8. Evaluation and System Output</h1>
+            <h2>8.6 Future Improvements</h2>
+            <div class="two-column">
+                <div>
+                    <h3>8.6.1 Short-term Enhancements</h3>
+                    <ul>
+                        <li>Implement pre-computed vectors for faster startup</li>
+                        <li>Add more FAQ pairs to improve coverage</li>
+                        <li>Fine-tune similarity threshold based on user feedback</li>
+                        <li>Add logging and analytics for query analysis</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>8.6.2 Long-term Enhancements</h3>
+                    <ul>
+                        <li>Integrate advanced NLP models (BERT, sentence transformers)</li>
+                        <li>Add multi-turn conversation support</li>
+                        <li>Implement user feedback mechanism</li>
+                        <li>Add support for multiple languages</li>
+                        <li>Integrate with university database for real-time information</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Conclusion -->
+        <div class="slide">
+            <h1>Conclusion</h1>
+            <div class="highlight-box" style="font-size: 1.2em; padding: 40px;">
+                <p>The UET Taxila FAQ Chatbot System successfully addresses the problem of manual information dissemination by providing an automated, intelligent, and user-friendly solution.</p>
+                <br>
+                <p>The system leverages classical NLP techniques (TF-IDF + Cosine Similarity) to achieve good performance while maintaining simplicity and efficiency.</p>
+                <br>
+                <p>With <strong>275 FAQ pairs</strong> covering <strong>20+ categories</strong>, the system provides comprehensive coverage of common university-related queries.</p>
+                <br>
+                <p>The interactive web interface ensures <strong>24/7 accessibility</strong> and excellent user experience across all devices.</p>
+            </div>
+            <div class="stats-grid" style="margin-top: 40px;">
+                <div class="stat-card">
+                    <div class="stat-number">85-90%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">< 1s</div>
+                    <div class="stat-label">Response Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">275</div>
+                    <div class="stat-label">FAQ Pairs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Thank You -->
+        <div class="slide title-slide">
+            <h1>Thank You!</h1>
+            <div class="subtitle" style="font-size: 2em; margin-top: 60px;">Questions?</div>
+            <div class="candidates" style="margin-top: 80px;">
+                <div class="candidate">
+                    <strong>Hafiz Sakahwat Ali</strong><br>
+                    <span style="font-size: 0.9em;">23-cs-63</span>
+                </div>
+                <div class="candidate">
+                    <strong>Abdul Moeid Rao</strong><br>
+                    <span style="font-size: 0.9em;">23-cs-95</span>
+                </div>
+            </div>
+            <div class="subtitle" style="margin-top: 60px; font-size: 1.2em;">
+                University of Engineering & Technology, Taxila
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+
+    <script>
+        // Get all slides
+        const allSlides = document.querySelectorAll('.slide');
+        const thankYouSlide = allSlides[allSlides.length - 1];
+        
+        // Hide thank you slide completely
+        if (thankYouSlide) thankYouSlide.style.display = 'none';
+        
+        // Get all slides except thank you (includes title slide)
+        const slides = Array.from(allSlides).filter((slide, index) => {
+            return index !== allSlides.length - 1; // Exclude last slide (thank you)
+        });
+        
+        const totalSlides = slides.length;
+        let currentSlide = 0; // Start at title slide (index 0)
+
+        function showSlide(n) {
+            // Ensure n is within bounds
+            if (n >= totalSlides) {
+                currentSlide = 0; // Loop to first (title)
+            } else if (n < 0) {
+                currentSlide = totalSlides - 1; // Loop to last content slide
+            } else {
+                currentSlide = n;
+            }
+
+            // Hide all slides first
+            slides.forEach((slide) => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            if (slides[currentSlide]) {
+                slides[currentSlide].classList.add('active');
+            }
+
+            // Update progress bar (title slide = 0%, last content slide = 100%)
+            const progress = currentSlide === 0 ? 0 : ((currentSlide) / (totalSlides - 1)) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Update slide counter
+            if (currentSlide === 0) {
+                document.getElementById('slideCounter').textContent = 'Title';
+            } else {
+                document.getElementById('slideCounter').textContent = `${currentSlide} / ${totalSlides - 1}`;
+            }
+
+            // Scroll to top of slide
+            const activeSlide = document.querySelector('.slide.active');
+            if (activeSlide) {
+                activeSlide.scrollTop = 0;
+            }
+        }
+
+        function changeSlide(direction) {
+            let nextSlide = currentSlide + direction;
+            
+            // Handle looping - skip title when going backward from first content slide
+            if (nextSlide < 0) {
+                nextSlide = totalSlides - 1; // Loop to last content slide
+            } else if (nextSlide >= totalSlides) {
+                nextSlide = 0; // Loop to title slide
+            }
+            
+            showSlide(nextSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            } else if (e.key === 'Home') {
+                showSlide(0); // Title slide
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1); // Last content slide
+            }
+        });
+
+        // Initialize - start from title slide
+        showSlide(0);
+
+        // Auto-hide keyboard hint after 5 seconds
+        setTimeout(() => {
+            document.querySelector('.keyboard-hint').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.keyboard-hint').style.display = 'none';
+            }, 500);
+        }, 5000);
+    </script>
+</body>
+</html>
